@@ -3,9 +3,9 @@ require_once('UKMconfig.inc.php');
 require_once('UKM/sql.class.php');
 require_once('UKM/curl.class.php');
 
-function writeCacheId( $id = 0 ) {
+function writeCacheId( $id = false ) {
     $handle = fopen('/etc/tvcache/cache_id', 'w');
-    fwrite( $handle, 0);
+    fwrite( $handle, $id);
     fclose( $handle );
 }
 
