@@ -1,20 +1,20 @@
 <?php
-require_once('UKMconfig_cache.inc.php');
+require_once('UKMconfig.inc.php');
 require_once('UKM/sql.class.php');
 require_once('UKM/curl.class.php');
 
 function writeCacheId( $id = 0 ) {
-    $handle = fopen('/etc/cache_id', 'w');
+    $handle = fopen('/etc/tvcache/cache_id', 'w');
     fwrite( $handle, 0);
-    fclose( $handle );    
+    fclose( $handle );
 }
 
 /// START
-if( !file_exists('/etc/cache_id') ) {
+if( !file_exists('/etc/tvcache/cache_id') ) {
     writeCacheId( 0 );
     define('CACHE_ID', 0);
 } else {
-    $handle = fopen('/etc/cache_id');
+    $handle = fopen('/etc/tvcache/cache_id');
     $contents = stream_get_contents($handle);
     fclose($handle);
     define('CACHE_ID', $contents);
