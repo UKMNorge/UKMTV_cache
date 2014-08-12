@@ -14,7 +14,7 @@ if( !file_exists('/etc/tvcache/cache_id') ) {
     writeCacheId( 0 );
     define('CACHE_ID', 0);
 } else {
-    $handle = fopen('/etc/tvcache/cache_id');
+    $handle = fopen('/etc/tvcache/cache_id', 'r');
     $contents = stream_get_contents($handle);
     fclose($handle);
     define('CACHE_ID', $contents);
