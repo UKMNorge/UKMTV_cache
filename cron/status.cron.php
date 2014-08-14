@@ -20,10 +20,20 @@ if( !file_exists('/etc/tvcache/cache_id') ) {
     define('CACHE_ID', (int) $contents);
 }
 
+function doHealthCheck () {
+    // TODO: Check if services are running and responding properly
+    return 'OK';
+}
+
 // SEND
 $curl = new UKMCURL();
 $curl->timeout(6);
-$curl->post( array('cache_id' => CACHE_ID ) );
+$curl->post( array(
+    'cache_id' => CACHE_ID,
+    'status' => doHealthCheck(),
+    'space_total' => 123,
+    'space_used' => 23,
+));
 $curlRes = $curl->request( 'http://tv.'. UKM_HOSTNAME .'/caches/heartbeat.php' );
 
 if( isset( $curl->data->cache_id ) && is_numeric( $curl->data->cache_id ) ) {
