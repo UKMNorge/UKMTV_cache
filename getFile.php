@@ -5,12 +5,18 @@ header('Content-Type: application/json; charset=utf-8');
 require_once('UKMconfig.inc.php');
 require_once('UKM/sql.class.php');
 
-if( !isset( $_POST['url'] ) || !isset( $_POST['localpath'] ) || !isset( $_POST['size'] ) || !isset( $_POST['cron_id'] ) ) {
+if( !(isset( $_POST['url'] ) && isset( $_POST['localpath'] ) && isset( $_POST['size'] ) && isset( $_POST['cron_id'] ) ) ) {
     header( 'HTTP/1.1 450 BAD REQUEST' );
-    die( json_encode( array('success' => false) ) );
+    die( json_encode( array(
+        'success' => false,
+        'message' => 'One or more required arguments not given. Need url, localpath, size and cron_id.',
+    )));
 } elseif( !is_array( $_POST['url'] ) ) {
     header( 'HTTP/1.1 451 BAD REQUEST' );
-    die( json_encode( array('success' => false) ) );
+    die( json_encode( array(
+        'success' => false,
+        'message' => 'url needs to be array of files to be fetched.',
+    )));
 }
 
 // ADD JOB
