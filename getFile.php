@@ -29,7 +29,7 @@ foreach( $_POST['url'] as $filetype => $url ) {
                          array('url' => $url));
     $existing = $SQLcheck->run('field', 'status');
     if( $existing != 'complete' && $existing != 'fetching' ) {
-        $SQLdel = new SQLdel('files_to_fetch', array('url' => $url ))
+        $SQLdel = new SQLdel('files_to_fetch', array('url' => $url ));
         $SQLdel->run();
     }
     
