@@ -5,7 +5,7 @@ header('Content-Type: application/json; charset=utf-8');
 require_once('UKMconfig.inc.php');
 require_once('UKM/sql.class.php');
 
-if( !(isset( $_POST['url'] ) && isset( $_POST['localpath'] ) && isset( $_POST['size'] ) && isset( $_POST['cron_id'] ) ) ) {
+if( !isset( $_POST['url'], $_POST['localpath'], $_POST['size'], $_POST['cron_id'] ) ) {
     header( 'HTTP/1.1 450 BAD REQUEST' );
     die( json_encode( array(
         'success' => false,
