@@ -4,7 +4,6 @@ ini_set("log_errors", 1);
 ini_set('display_errors', 0);
 
 require_once('UKMconfig.inc.php');
-require_once('../tvconfig.php');
 require_once('UKM/sql.class.php');
 
 // Fetch the data about the cache reporting in

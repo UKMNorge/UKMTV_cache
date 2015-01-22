@@ -4,7 +4,6 @@ ini_set("log_errors", 1);
 ini_set('display_errors', 0);
 
 require_once('UKMconfig.inc.php');
-require_once('../tvconfig.php');
 require_once('UKM/sql.class.php');
 
 $caches_query = new SQL("SELECT `id`, `ip`, `status`, `last_heartbeat` FROM `ukm_tv_caches_caches`");
