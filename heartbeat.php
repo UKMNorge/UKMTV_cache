@@ -4,7 +4,15 @@ ini_set("log_errors", 1);
 ini_set('display_errors', 0);
 
 require_once('UKMconfig.inc.php');
+require_once('UKM/inc/crypto.inc.php');
 require_once('UKM/sql.class.php');
+
+$sent_key = $_POST['key'];
+if ( !constant_time_compare($sent_key, UKM_CACHE_KEY) ) {
+	die(json_encode(array(
+		'message' => 'Auth failed',
+	)));
+}
 
 // Fetch the data about the cache reporting in
 $cache_id = $_POST['cache_id'];
