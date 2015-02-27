@@ -35,7 +35,7 @@ function get_cache_status() {
 }
 
 function is_port_open($host, $port) {
-	$connection = @fsockopen($host, $port);
+	$connection = @fsockopen($host, $port, $timeout=2.0);
 	if ( is_resource( $connection ) ) {
 		fclose($connection);
 		return true;
