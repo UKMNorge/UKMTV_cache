@@ -13,7 +13,7 @@ $res = $caches_query->run( $caches_query );
 
 <!DOCTYPE html>
 <title>Caches :: UKM-TV</title>
-<link rel="stylesheet" href="http://ukm.dev/wp-content/themes/UKMresponsive/vendor/bootstrap/3.0.1/css/bootstrap.css">
+<link rel="stylesheet" href="http://<?= UKM_HOSTNAME ?>/wp-content/themes/UKMresponsive/vendor/bootstrap/3.0.1/css/bootstrap.css">
 <meta http-equiv="refresh" content="30">
 <body class="container">
 <h1>Caches</h1>
