@@ -13,7 +13,8 @@ define('WOWZA_PORT', 1935);
 
 function validate_access_key() {
 	$sent_key = $_POST['key'];
-	if ( !constant_time_compare($sent_key, UKM_CACHE_KEY) ) {
+	if ( UKM_CACHE_KEY != $sent_key ) { #!constant_time_compare($sent_key, UKM_CACHE_KEY) ) {
+		error_log('auth failed by recieved key: '. $sent_key);
 		http_response_code(400);
 		die(json_encode(array(
 			'message' => 'Auth failed',
@@ -58,7 +59,7 @@ function validate_open_ports($host) {
 validate_access_key();
 $cache_status = get_cache_status();
 $cache_id = $_POST['cache_id'];
-$cache_ip = $_SERVER['REMOTE_ADDR'];
+$cache_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
 validate_open_ports($cache_ip);
 
 if ( !$cache_id ) {
