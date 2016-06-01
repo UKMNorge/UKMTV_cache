@@ -1,5 +1,4 @@
 <?php
-
 ini_set("log_errors", 1);
 ini_set('display_errors', 0);
 
@@ -10,6 +9,14 @@ require_once('UKM/sql.class.php');
 // The port that needs to be open for the cache to function correctly
 define('WOWZA_PORT', 1935);
 
+// video.ukm.no (mother-server) utilizes two different IP's. One for HTTP and one for wowza
+// The HTTP one is always accessed by DNS, and logged IP should therefore be wowza IP
+function translate_mother_server_dual_ip_issue( $host ) {
+	if( $host == gethostbyname( 'video.ukm.no' ) ) {
+		return gethostbyname('wowza.video.ukm.no');
+	}
+	return $host;
+}
 
 function validate_access_key() {
 	$sent_key = $_POST['key'];
@@ -60,6 +67,16 @@ validate_access_key();
 $cache_status = get_cache_status();
 $cache_id = $_POST['cache_id'];
 $cache_ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+if( empty( $cache_ip ) ) {
+	$cache_ip = $_SERVER['REMOTE_ADDR'];
+}
+
+$cache_ip = translate_mother_server_dual_ip_issue( $cache_ip );
+
+$post_for_log = $_POST;
+$post_for_log['key'] = substr($_POST['key'], 0, 3) .'***obfuscated***'. substr($_POST['key'], strlen($_POST['key'])-3, 3);
+error_log('Got heartbeat from '. $cache_ip ." along with POST-data: \r\n". var_export( $post_for_log, true ) );
+
 validate_open_ports($cache_ip);
 
 if ( !$cache_id ) {
