@@ -88,7 +88,7 @@ if ( !$cache_id ) {
 } else {
 	$select_sql = new SQL("SELECT id FROM `ukm_tv_caches_caches` WHERE `id`='#id'", array('id' => $cache_id));
 	$res = $select_sql->run( $select_sql );
-	$res = mysql_fetch_assoc( $res );
+	$res = SQL::fetch( $res );
 	if ( !$res ) {
 		error_log("Got heartbeat from unknown id. ID=$cache_id, ip=$cache_ip.");
 		$insert_new = new SQLins('ukm_tv_caches_caches');
