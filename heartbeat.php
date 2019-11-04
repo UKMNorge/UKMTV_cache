@@ -2,9 +2,13 @@
 ini_set("log_errors", 1);
 ini_set('display_errors', 0);
 
+use UKMNorge\Database\SQL\Insert;
+use UKMNorge\Database\SQL\Update;
+use UKMNorge\Database\SQL\Query;
+
 require_once('UKMconfig.inc.php');
 require_once('UKM/inc/crypto.inc.php');
-require_once('UKM/sql.class.php');
+require_once('UKM/Autoloader.php');
 
 // The port that needs to be open for the cache to function correctly
 define('WOWZA_PORT', 1935);
@@ -80,25 +84,25 @@ error_log('Got heartbeat from '. $cache_ip ." along with POST-data: \r\n". var_e
 validate_open_ports($cache_ip);
 
 if ( !$cache_id ) {
-	$sql = new SQLins('ukm_tv_caches_caches');
+	$sql = new Insert('ukm_tv_caches_caches');
 	$sql->add('ip', $cache_ip);
 	$sql->add('status', $cache_status);
 	$results = $sql->run();
 	$cache_id = $sql->insid();
 } else {
-	$select_sql = new SQL("SELECT id FROM `ukm_tv_caches_caches` WHERE `id`='#id'", array('id' => $cache_id));
+	$select_sql = new Query("SELECT id FROM `ukm_tv_caches_caches` WHERE `id`='#id'", array('id' => $cache_id));
 	$res = $select_sql->run( $select_sql );
-	$res = SQL::fetch( $res );
+	$res = Query::fetch( $res );
 	if ( !$res ) {
 		error_log("Got heartbeat from unknown id. ID=$cache_id, ip=$cache_ip.");
-		$insert_new = new SQLins('ukm_tv_caches_caches');
+		$insert_new = new Insert('ukm_tv_caches_caches');
 		$insert_new->add('id', $cache_id);
 		$insert_new->add('ip', $cache_ip);
 		$insert_new->add('status', $cache_status);
 		$insert_new->run();
 	}
 	error_log("Updating status for ip $cache_ip");
-	$sql = new SQLins('ukm_tv_caches_caches', array('id' => $cache_id));
+	$sql = new Update('ukm_tv_caches_caches', array('id' => $cache_id));
 	$sql->add('ip', $cache_ip);
 	$sql->add('status', $cache_status);
 	$sql->add('last_heartbeat',  date('Y-m-d G:i:s'));
