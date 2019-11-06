@@ -7,7 +7,6 @@ use UKMNorge\Database\SQL\Update;
 use UKMNorge\Database\SQL\Query;
 
 require_once('UKMconfig.inc.php');
-require_once('UKM/inc/crypto.inc.php');
 require_once('UKM/Autoloader.php');
 
 // The port that needs to be open for the cache to function correctly
